@@ -1,33 +1,61 @@
 <template>
-    <div class="login">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h2 class="display-4 text-center mt-5">Login Form</h2>
+  <div class="login">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="display-4 text-center mt-5">Login Form</h2>
 
-                <form >
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" >
-                    </div>
-                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" >
-                    </div>
-                     <div class="form-group">
-                      <button type="submit" class="btn  btn-info btn-block">Login</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="form-control"
+              v-model="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control"
+              v-model="password"
+            />
+          </div>
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn  btn-info btn-block"
+              @click.prevent="performLogin"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-
-}
+  name: "login",
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    performLogin() {
+      console.log("perform Login");
+      this.$router.push("/profile");
+    }
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,19 +1,15 @@
 <template>
-    <div class="login">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h2 class="display-4 text-center mt-5">Profile</h2>
-            </div>
-        </div>
+  <div class="login">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="display-4 text-center mt-5">Profile</h2>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
