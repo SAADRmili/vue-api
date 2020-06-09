@@ -16,17 +16,26 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: {
+      guest: true
+    }
   },
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: Register,
+    meta: {
+      guest: true
+    }
   },
   {
     path: "/profile",
     name: "Profile",
-    component: Profile
+    component: Profile,
+    meta: {
+      secure: true
+    }
   }
   // {
   //   path: "/about",
@@ -45,4 +54,26 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.secure)) {
+    // if no token
+    if (localStorage.getItem("token") == null) {
+      next({
+        path: "/login"
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem("token") == null) {
+      next();
+    } else {
+      next({
+        path: "/profile"
+      });
+    }
+  } else {
+    next();
+  }
+});
 export default router;
