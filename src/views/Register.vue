@@ -34,7 +34,11 @@
               class="form-control"
               v-model="password"
             />
+            <div style="color:red" v-if="error">
+              {{ error }}
+            </div>
           </div>
+
           <div class="form-group">
             <button
               type="submit"
@@ -45,45 +49,44 @@
             </button>
           </div>
         </form>
+        <circle-spin v-show="isLoading"></circle-spin>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "register",
   data() {
     return {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      error: "",
+      isLoading: false
       // error:""
     };
   },
   methods: {
     performRegister() {
-      axios
-        .post("http://localhost:8000/api/auth/register", {
+      this.isLoading = true;
+      this.$store
+        .dispatch("performRegisterAction", {
           name: this.name,
           email: this.email,
           password: this.password
         })
         // eslint-disable-next-line no-unused-vars
         .then(res => {
-          // eslint-disable-next-line no-unused-vars
-          const token = localStorage.setItem("token", res.data.access_token);
-          // eslint-disable-next-line no-unused-vars
-          const user = localStorage.setItem("user", res.data.user);
+          this.isLoading = false;
           this.$router.push("/profile");
         })
         .catch(err => {
+          this.isLoading = false;
+          this.error = "there was error during login process";
           console.log(err.message);
-          //this.error = err.message;
         });
-      // console.log("perform register");
-      // this.$router.push("/profile");
     }
   }
 };

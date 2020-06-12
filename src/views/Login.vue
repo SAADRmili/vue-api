@@ -38,41 +38,40 @@
             </button>
           </div>
         </form>
+        <circle-spin v-show="isLoading"></circle-spin>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "login",
   data() {
     return {
       email: "",
       password: "",
-      error: ""
+      error: "",
+      isLoading: false
     };
   },
   methods: {
     performLogin() {
-      axios
-        .post("http://localhost:8000/api/auth/login", {
+      this.isLoading = true;
+      this.$store
+        .dispatch("performLoginAction", {
           email: this.email,
           password: this.password
         })
+        // eslint-disable-next-line no-unused-vars
         .then(res => {
-          console.log(res.data);
-          //store the token annd  user localstorge
-          // eslint-disable-next-line no-unused-vars
-          const token = localStorage.setItem("token", res.data.access_token);
-          // eslint-disable-next-line no-unused-vars
-          const user = localStorage.setItem("user", res.data.user);
+          this.isLoading = false;
           this.$router.push("/profile");
         })
         .catch(err => {
+          this.isLoading = false;
+          this.error = "there was error during login process";
           console.log(err.message);
-          this.error = err.message;
         });
       // console.log("perform Login");
       // this.$router.push("/profile");

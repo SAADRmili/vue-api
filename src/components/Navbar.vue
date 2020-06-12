@@ -62,10 +62,15 @@ export default {
       }
     },
     performLogout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      this.token = null;
-      this.$router.push("/login");
+      this.$store
+        .dispatch("performLogoutAction")
+        // eslint-disable-next-line no-unused-vars
+        .then(res => {
+          this.$router.push("/login");
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
