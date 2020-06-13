@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
 
 Vue.use(Vuex);
 import axios from "axios";
@@ -9,6 +10,7 @@ export default new Vuex.Store({
     loggedIn: false,
     user: null
   },
+  plugins: [new VuexPersistence().plugin],
   mutations: {
     SET_token(state, payload) {
       state.token = payload;
@@ -75,12 +77,34 @@ export default new Vuex.Store({
             reject(err);
           });
       });
+    },
+
+    updateUserAction({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch("http://localhost:8000/api/auth/update", {
+            name: payload.name,
+            email: payload.email,
+            token: state.token
+          })
+          .then(res => {
+            commit("SET_user", res.data.user);
+
+            resolve(res);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
     }
   },
   modules: {},
   getters: {
     get_loggedIn(state) {
       return state.loggedIn;
+    },
+    get_user(state) {
+      return state.user;
     }
   }
 });

@@ -28,6 +28,7 @@
           </router-link>
         </li>
         <li class="nav-item" v-if="loggedIn">
+          <a href="">{{ user.name }}</a>
           <button
             class="btn btn-warning my-1 ml-1 btn-block"
             @click="performLogout"
@@ -53,6 +54,9 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.get_loggedIn;
+    },
+    user() {
+      return this.$store.getters.get_user;
     }
   },
   methods: {
